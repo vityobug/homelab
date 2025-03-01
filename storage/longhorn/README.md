@@ -9,20 +9,17 @@ Longhorn should be deployed using Helm. Ensure you have Helm installed before pr
 ### Install Longhorn
 
 ```sh
-helm repo add longhorn https://charts.longhorn.io
-helm repo update
-helm upgrade --install longhorn longhorn/longhorn \
-  -f values.yaml \
-  --namespace longhorn-system --create-namespace
+helm install longhorn longhorn/longhorn \
+  --namespace longhorn-system \
+  --create-namespace \
+  --values values.yaml
 ```
 
 ## Configure Ingress
 
 An ingress configuration is available in ingress.yaml. Apply it after deployment:
 
-```
-kubectl apply -f ingress.yaml
-```
+`kubectl apply -f ingress.yaml`
 
 ## Notes
 
