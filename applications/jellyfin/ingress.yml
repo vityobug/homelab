@@ -1,0 +1,34 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: jellyfin-ingress
+  namespace: media
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  #  tls:
+  #  - hosts:
+  #      - j.home.arpa
+  #    secretName: home-arpa-tls
+  ingressClassName: nginx
+  rules:
+    - host: "j.bugaychuk.com"
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: jellyfin-svc
+                port:
+                  number: 8096
+    - host: "j.home.arpa"
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: jellyfin-svc
+                port:
+                  number: 8096

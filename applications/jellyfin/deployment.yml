@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: jellyfin
+  name: jellyfin-dep
+  namespace: media
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jellyfin
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: jellyfin
+    spec:
+      securityContext: # used to apply the same permissions as on the NAS
+        runAsUser: 568
+        runAsGroup: 568
+        fsGroup: 568
+      containers:
+        - image: jellyfin/jellyfin:10.10 # change the version to the most recent one to update
+          name: jellyfin
+          ports:
+            - name: discovery-jelly
+              containerPort: 7359
+              protocol: UDP
+            - name: discovery-dlna
+              containerPort: 1900
+              protocol: UDP
+            - name: https-traffic
+              containerPort: 8920
+              protocol: TCP
+            - name: http-traffic
+              containerPort: 8096
+              protocol: TCP
+          resources: {}
+          volumeMounts:
+            - name: jellyfin-config-vol2 # Config/Transcoding
+              mountPath: /config
+            - name: jellyfin-cache-vol2 # Image/Metadata
+              mountPath: /cache
+            - name: media-vol # NFS volume
+              mountPath: /media
+      volumes:
+        - name: jellyfin-config-vol2 # Config/Transcoding
+          persistentVolumeClaim:
+            claimName: jellyfin-config-pvc2
+        - name: jellyfin-cache-vol2 # Image/Metadata
+          persistentVolumeClaim:
+            claimName: jellyfin-cache-pvc2
+        - name: media-vol # NFS volume
+          persistentVolumeClaim:
+            claimName: media-pvc
+status: {}
