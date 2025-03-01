@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: jellyseer
+  name: jellyseer-dep
+  namespace: media
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jellyseer
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: jellyseer
+    spec:
+      securityContext:
+        runAsUser: 3000
+        runAsGroup: 3000
+        fsGroup: 3000
+      containers:
+        - image: fallenbagel/jellyseerr:2.3.0
+          name: jellyseerr
+          ports:
+            - containerPort: 5055
+          resources: {}
+          volumeMounts:
+            - mountPath: "/app/config"
+              name: jellyseer-vol
+      volumes:
+        - name: jellyseer-vol
+          persistentVolumeClaim:
+            claimName: jellyseer-pvc
+status: {}
