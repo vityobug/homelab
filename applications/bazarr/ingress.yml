@@ -1,0 +1,28 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: bazarr-ingress
+  namespace: media
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: "subs.bugaychuk.com"
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: bazarr-svc
+                port:
+                  number: 6767
+    - host: "subs.home.arpa"
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: bazarr-svc
+                port:
+                  number: 6767
