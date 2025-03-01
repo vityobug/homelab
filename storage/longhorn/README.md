@@ -12,18 +12,18 @@ Longhorn should be deployed using Helm. Ensure you have Helm installed before pr
 helm install longhorn longhorn/longhorn \
   --namespace longhorn-system \
   --create-namespace \
-  --values values.yaml
+  --values values.yml
 ```
 
 ## Configure Ingress
 
 An ingress configuration is available in ingress.yaml. Apply it after deployment:
 
-`kubectl apply -f ingress.yaml`
+`kubectl apply -f ingress.yml`
 
 ## Notes
 
-* Modify values.yaml to customize the installation.
+* Modify values.yml to customize the installation.
 
 * Ensure your cluster meets Longhorn’s requirements. (such as NFS or iSCSI)
 
