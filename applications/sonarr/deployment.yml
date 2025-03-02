@@ -4,7 +4,7 @@ metadata:
   creationTimestamp: null
   labels:
     app: sonarr
-  name: sonarr-dep
+  name: sonarr
   namespace: media
 spec:
   replicas: 1

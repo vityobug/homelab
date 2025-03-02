@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   labels:
     app: prowlarr
-  name: prowlarr-dep
+  name: prowlarr
   namespace: media
 spec:
   replicas: 1

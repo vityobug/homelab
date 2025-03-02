@@ -1,0 +1,125 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: romm
+  name: romm-app
+  namespace: media
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: romm
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: romm
+    spec:
+      initContainers:
+        - name: wait-for-mariadb
+          image: busybox
+          command:
+            [
+              "sh",
+              "-c",
+              'until nc -z romm-db-svc 3306; do echo "Waiting for DB..."; sleep 5; done;',
+            ]
+      securityContext:
+        runAsUser: 568
+        runAsGroup: 568
+        fsGroup: 568
+      containers:
+        - image: rommapp/romm:3.7
+          name: romm
+          ports:
+            - containerPort: 8080
+          resources: {}
+          env:
+            - name: DB_HOST
+              value: romm-db-svc
+            - name: DB_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: romm-secret
+                  key: MYSQL_DATABASE
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: romm-secret
+                  key: MYSQL_USER
+            - name: DB_PASSWD
+              valueFrom:
+                secretKeyRef:
+                  name: romm-secret
+                  key: MYSQL_PASSWORD
+            - name: ROMM_AUTH_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: romm-secret
+                  key: ROMM_AUTH_SECRET_KEY
+            - name: IGDB_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: romm-secret
+                  key: IGDB_CLIENT_ID
+            - name: IGDB_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: romm-secret
+                  key: IGDB_CLIENT_ID
+            - name: MOBYGAMES_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: romm-secret
+                  key: MOBYGAMES_API_KEY
+            - name: STEAMGRIDDB_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: romm-secret
+                  key: STEAMGRIDDB_API_KEY
+          volumeMounts:
+            - mountPath: "/romm/resources"
+              name: romm-resources-vol
+            - mountPath: "/redis-data"
+              name: romm-redis-vol
+            - mountPath: "/romm/library"
+              name: romm-lib-vol
+            - mountPath: "/romm/assets"
+              name: romm-assets-vol
+            - mountPath: "/romm/config"
+              name: romm-config-vol
+      dnsConfig:
+        nameservers:
+          - 8.8.8.8
+          - 8.8.4.4
+      volumes:
+        - name: romm-resources-vol
+          persistentVolumeClaim:
+            claimName: romm-resources-pvc
+        - name: romm-redis-vol
+          persistentVolumeClaim:
+            claimName: romm-redis-pvc
+        - name: romm-lib-vol
+          persistentVolumeClaim:
+            claimName: romm-lib-pvc
+        - name: romm-assets-vol
+          persistentVolumeClaim:
+            claimName: romm-assets-pvc
+        - name: romm-config-vol
+          persistentVolumeClaim:
+            claimName: romm-config-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: romm-svc
+  namespace: media
+spec:
+  selector:
+    app: romm
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080

@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: romm-db
+  name: romm-db
+  namespace: media
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: romm-db
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: romm-db
+    spec:
+      containers:
+        - image: mariadb:11.7.1-noble-rc
+          name: romm-db
+          ports:
+            - containerPort: 3306
+          envFrom:
+            - secretRef:
+                name: romm-secret
+          volumeMounts:
+            - mountPath: "/var/lib/mysql"
+              name: romm-db-vol
+          readinessProbe:
+            tcpSocket:
+              port: 3306 # Ensure the port is correct for MariaDB
+            initialDelaySeconds: 30 # Delay before starting the first probe
+            periodSeconds: 5 # How often to run the probe
+
+          livenessProbe:
+            tcpSocket:
+              port: 3306 # Same port as readiness
+            initialDelaySeconds: 10 # Delay before starting the first liveness probe
+            periodSeconds: 10 # How often to run the probe
+      volumes:
+        - name: romm-db-vol
+          persistentVolumeClaim:
+            claimName: romm-db-pvc
+status: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: romm-db-svc
+  namespace: media
+spec:
+  selector:
+    app: romm-db
+  ports:
+    - protocol: TCP
+      port: 3306
+      targetPort: 3306
