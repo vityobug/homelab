@@ -52,9 +52,9 @@ before deploying the ROMM application:
 kubectl apply -f secrets.yml
 kubectl apply -f pv.yml
 kubectl apply -f pvc.yml
+kubectl apply -f service.yml
 kubectl apply -f deploy-db.yml
 kubectl apply -f deploy-romm.yml
-kubectl apply -f service.yml
 kubectl apply -f ingress.yml
 ```
 
