@@ -5,7 +5,7 @@ metadata:
   namespace: media
   labels:
     app: bazarr
-  name: bazarr-dep
+  name: bazarr
 spec:
   replicas: 1
   selector:
