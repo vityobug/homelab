@@ -13,15 +13,15 @@ and recreated as needed due to persistent storage.
 
 ## Deployed Applications
 
-* Bazarr – Subtitle management for media libraries.
-* Jellyfin – Open-source media server for streaming content.
-* Jellyseer – Web-based request management for media downloads.
-* Lidarr – Music collection manager for automatic downloads.
-* Prowlarr – Indexer manager for media search and automation.
-* Radarr – Movie collection manager with automation.
-* Romm – A self-hosted ROM manager that scans, enriches,
+* **Bazarr** – Subtitle management for media libraries.
+* **Jellyfin** – Open-source media server for streaming content.
+* **Jellyseer** – Web-based request management for media downloads.
+* **Lidarr** – Music collection manager for automatic downloads.
+* **Prowlarr** – Indexer manager for media search and automation.
+* **Radarr** – Movie collection manager with automation.
+* **Romm** – A self-hosted ROM manager that scans, enriches,
 and organizes game collections for emulators.
-* Sonarr – TV show collection manager with automation.
+* **Sonarr** – TV show collection manager with automation.
 
 ## Future Plans
 
@@ -30,14 +30,14 @@ and the plan is to migrate them to this Kubernetes cluster over time. These incl
 
 * **Nextcloud** for file synchronization
 * **Immich** for photo and video management
-* **Paperless* for document archiving
+* **Paperless** for document archiving
 * An internal **email server** for notifications
 * Private GitOps for automation
 * A self-hosted password manager (**Bitwarden**)
 
 Monitoring will remain separate for now, with Zabbix running on a
 dedicated VM. In the future, I plan to explore Grafana and
-Prometheus for observability.
+**Prometheus** for observability.
 
 This lab setup is a work in progress, evolving as
 I refine the infrastructure and configurations.
