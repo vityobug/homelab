@@ -48,11 +48,15 @@ Ensure proper access control is in place to protect these secrets.
 To ensure proper resource allocation, apply the Secrets, PV and PVC configurations
 before deploying the ROMM application:
 
+```sh
 kubectl apply -f secrets.yml
 kubectl apply -f pv.yml
 kubectl apply -f pvc.yml
 kubectl apply -f deploy-db.yml
 kubectl apply -f deploy-romm.yml
+kubectl apply -f service.yml
+kubectl apply -f ingress.yml
+```
 
 Ensure that the NFS share is properly configured and accessible by
 the Kubernetes nodes to prevent storage access issues.
