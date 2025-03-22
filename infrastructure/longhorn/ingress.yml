@@ -18,3 +18,13 @@ spec:
                 name: longhorn-frontend
                 port:
                   number: 80
+    - host: "lh.bugaychuk.com"
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: longhorn-frontend
+                port:
+                  number: 80

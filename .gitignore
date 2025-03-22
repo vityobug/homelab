@@ -1,1 +1,6 @@
 secrets/
+terraform/files/id_rsa.pub
+terraform/.terraform.lock.hcl
+terraform/terraform.tfstate
+terraform/terraform.tfstate.backup
+terraform/.terraform/providers/registry.terraform.io
