@@ -31,7 +31,7 @@ spec:
         runAsGroup: 568
         fsGroup: 568
       containers:
-        - image: rommapp/romm:3.7
+        - image: rommapp/romm:3.8
           name: romm
           ports:
             - containerPort: 8080
@@ -79,6 +79,16 @@ spec:
                 secretKeyRef:
                   name: romm-secret
                   key: STEAMGRIDDB_API_KEY
+            - name: SCREENSCRAPER_USER
+              valueFrom:
+                secretKeyRef:
+                  name: romm-secret
+                  key: SCREENSCRAPER_USER
+            - name: SCREENSCRAPER_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: romm-secret
+                  key: SCREENSCRAPER_PASSWORD
           volumeMounts:
             - mountPath: "/romm/resources"
               name: romm-resources-vol
