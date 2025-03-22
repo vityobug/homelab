@@ -4,7 +4,7 @@ This repository documents my **highly-available Kubernetes lab**, designed
 for self-hosted services. The cluster consists of **3 master nodes and
 3 worker nodes**, using **Calico** for networking and **Longhorn** for storage.
 Longhorn replicates storage across all three worker nodes, ensuring redundancy.
-Large files, such as ISOs and movies, are stored on an **NFS share**.
+Large files, such as ISOs and media files, are stored on an **NFS share**.
 Ingress is managed by **NGINX Ingress Controller** and **MetalLB** for
 external IP allocation.
 
