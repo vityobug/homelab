@@ -6,6 +6,8 @@ This guide is step-by-step instructions to deploy a highly available Kubernetes
  cluster on Ubuntu 24.04 using Terraform on Proxmox in my lab.
 VMs are provisioned with cloud-init Ubuntu images. The topology can be
 visualised as follows.
+![Lab Topology](lab-topology.svg)
+
 The cluster consists of:
 
 - 2 HAProxy nodes for load balancing
