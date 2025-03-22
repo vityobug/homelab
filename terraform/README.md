@@ -66,7 +66,7 @@ This will create:
 - 3 control-plane nodes
 - 3 worker nodes
 - 2 HAProxy nodes (TODO: Add Terraform code for these)
-- 1 Shared storate (TODO: Add Terraform code.
+- 1 Shared storage (TODO: Add Terraform code.
 To save space when all VMs are on the same host)
 
 ---
@@ -133,14 +133,38 @@ After initialization, you will see an output similar to this:
 ```bash
 Your Kubernetes control-plane has initialized successfully!
 
-To start using your cluster, run:
+To start using your cluster, you need to run the following as a regular user:
 
-mkdir -p $HOME/.kube
-sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
-sudo chown $(id -u):$(id -g) $HOME/.kube/config
+  mkdir -p $HOME/.kube
+  sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+  sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+Alternatively, if you are the root user, you can run:
+
+  export KUBECONFIG=/etc/kubernetes/admin.conf
+
+You should now deploy a pod network to the cluster.
+Run "kubectl apply -f [podnetwork].yaml" with one of the options listed at:
+  https://kubernetes.io/docs/concepts/cluster-administration/addons/
+
+You can now join any number of control-plane nodes running the following command on each as root:
+
+  kubeadm join 172.31.31.210:6443 --token 6jdm9m.5hr443563455st3o6 \
+        --discovery-token-ca-cert-hash sha256:b132743563456345a34563417b5b48d00baa015473074829347a \
+        --control-plane --certificate-key 34c2b1f13e9a885c82345234526272583456da6ee7717d6e37120c7f36
+
+Please note that the certificate-key gives access to cluster sensitive data, keep it secret!
+As a safeguard, uploaded-certs will be deleted in two hours; If necessary, you can use
+"kubeadm init phase upload-certs --upload-certs" to reload certs afterward.
+
+Then you can join any number of worker nodes by running the following on each as root:
+
+kubeadm join 172.31.31.210:6443 --token 6jdm9m.5hr443563455st3o6 \
+        --discovery-token-ca-cert-hash sha256:b132743563456345a34563417b5b48d00baa015473074829347a
 ```
+Notice the join command points to the haproxy Virtual IP that both nodes have.
 
-Copy the generated `kubeadm join` commands for control-plane and worker nodes.
+Copy your generated `kubeadm join` commands for control-plane and worker nodes.
 
 ---
 
