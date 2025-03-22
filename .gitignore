@@ -1,6 +1,5 @@
 secrets/
 terraform/files/id_rsa.pub
-terraform/files/id_rsa.pub
 terraform/.terraform.lock.hcl
 terraform/terraform.tfstate
 terraform/terraform.tfstate.backup
