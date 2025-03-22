@@ -4,3 +4,8 @@ terraform/.terraform.lock.hcl
 terraform/terraform.tfstate
 terraform/terraform.tfstate.backup
 terraform/.terraform/providers/registry.terraform.io
+clusters/terraform/.terraform/providers/registry.terraform.io
+clusters/terraform/files/id_rsa.pub
+clusters/terraform/.terraform.lock.hcl
+clusters/terraform/terraform.tfstate
+clusters/terraform/terraform.tfstate.backup
