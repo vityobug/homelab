@@ -87,7 +87,7 @@ Run the following commands on **each** node:
 
 ```bash
 sudo apt update && sudo apt upgrade -y
-sudo apt install apt-transport-https curl -y
+sudo apt install apt-transport-https curl nfs-common -y
 
 sudo apt install containerd -y
 
