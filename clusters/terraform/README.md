@@ -39,10 +39,12 @@ The cluster consists of:
 - 2 HAProxy nodes for load balancing
 - 3 control-plane nodes
 - 3 worker nodes
+- 1 NFS shared storage node (to save space on workers)
 
 ## Prerequisites
 
 - Proxmox server with sufficient resources
+- ZFS on the PVE for data integrity and redundancy
 - Terraform installed on your local machine
 - SSH key pair for authentication
 
