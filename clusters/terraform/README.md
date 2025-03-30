@@ -110,7 +110,7 @@ ssh -i ~/.ssh/id_rsa your_user@<node_ip>
 Run the following commands on **each** node:
 
 ```bash
-sudo apt install qemu-guest-agent apt-transport-https curl containerd -y
+sudo apt install qemu-guest-agent apt-transport-https curl containerd nfs-common -y
 
 sudo mkdir -p /etc/containerd
 containerd config default | sudo tee /etc/containerd/config.toml > /dev/null
