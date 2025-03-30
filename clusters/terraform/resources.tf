@@ -10,6 +10,61 @@ resource "proxmox_virtual_environment_download_file" "ubuntu_cloud_image" {
   url = "https://cloud-images.ubuntu.com/noble/current/noble-server-cloudimg-amd64.img" # Link to the ubuntu cloudinit img.
 }
 
+# resource "proxmox_virtual_environment_vm" "haproxy_vm" {
+#   count           = 2
+#   name            = "haproxy-21${count.index + 1}"
+#   node_name       = "pve"
+#   vm_id           = "21${count.index + 1}"
+#   stop_on_destroy = true
+#   tags            = ["k8s", "dev"]
+# 
+#   cpu {
+#     cores = 2
+#     type  = "host"
+#   }
+# 
+#   memory {
+#     dedicated = 1024
+#     floating  = 0
+#   }
+# 
+#   disk {
+#     datastore_id = "local-zfs"
+#     file_id      = proxmox_virtual_environment_download_file.ubuntu_cloud_image.id
+#     interface    = "scsi0"
+#     #iothread     = true
+#     discard = "on"
+#     size    = 10
+#     ssd     = true
+#   }
+# 
+#   agent {
+#     # read 'Qemu guest agent' section, change to true only when ready
+#     enabled = false
+#   }
+#   # if agent is not enabled, the VM may not be able to shutdown properly, and may need to be forced off
+# 
+#   initialization {
+# 
+#     datastore_id = "local-zfs"
+#     ip_config {
+#       ipv4 {
+#         address = "172.31.31.21${count.index + 1}/24"
+#         gateway = "172.31.31.1"
+#       }
+#     }
+# 
+#     user_account {
+#       username = "vitalyb"
+#       keys     = [trimspace(data.local_file.ssh_public_key.content)]
+#     }
+#   }
+# 
+#   network_device {
+#     bridge = "vmbr0"
+#   }
+# }
+
 resource "proxmox_virtual_environment_vm" "master_vm" {
   count           = 3
   name            = "master-12${count.index + 1}"
@@ -34,13 +89,13 @@ resource "proxmox_virtual_environment_vm" "master_vm" {
     interface    = "scsi0"
     #iothread     = true
     discard = "on"
-    size    = 10
+    size    = 40
     ssd     = true
   }
 
   agent {
     # read 'Qemu guest agent' section, change to true only when ready
-    enabled = false
+    enabled = true
   }
 
   initialization {
@@ -73,7 +128,7 @@ resource "proxmox_virtual_environment_vm" "worker_vm" {
   tags            = ["k8s", "dev"]
 
   cpu {
-    cores = 6
+    cores = 8
     type  = "host"
   }
 
@@ -94,7 +149,7 @@ resource "proxmox_virtual_environment_vm" "worker_vm" {
 
   agent {
     # read 'Qemu guest agent' section, change to true only when ready
-    enabled = false
+    enabled = true
   }
   # if agent is not enabled, the VM may not be able to shutdown properly, and may need to be forced off
 
