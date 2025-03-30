@@ -13,6 +13,10 @@ external IP allocation.
 While many deployed applications are not HA-compatible, they can be torn down
 and recreated as needed due to persistent storage.
 
+To recreate the environment use the instructions in clusters/terraform and 
+configs from clusters/ha-configs. The topology and more details are 
+available in the terraform README.md.
+
 ## Deployed Applications
 
 * **Bazarr** – Subtitle management for media libraries.
