@@ -7,6 +7,7 @@ This guide is step-by-step instructions to deploy a highly available Kubernetes
 VMs are provisioned with cloud-init Ubuntu images. The topology can be
 visualised as follows.
 
+```raw
 ┌───────────────────────────────────────────────────────────────┐
 │ PVE                                                           │
 │ ┌──────────────┐      ┌───────────────┐     ┌───────────────┐ │
@@ -31,6 +32,7 @@ visualised as follows.
 │      └────────────────┴───────────────┴────────────────┘      │
 │                                                               │
 └───────────────────────────────────────────────────────────────┘
+```
 
 The cluster consists of:
 
