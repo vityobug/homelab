@@ -6,7 +6,31 @@ This guide is step-by-step instructions to deploy a highly available Kubernetes
  cluster on Ubuntu 24.04 using Terraform on Proxmox in my lab.
 VMs are provisioned with cloud-init Ubuntu images. The topology can be
 visualised as follows.
-![Lab Topology](lab-topology.svg)
+
+┌───────────────────────────────────────────────────────────────┐
+│ PVE                                                           │
+│ ┌──────────────┐      ┌───────────────┐     ┌───────────────┐ │
+│ │  master-121  │      │   master-122  │     │   master-123  │ │
+│ │ 172.31.31.121│      │ 172.31.31.122 │     │ 172.31.31.123 │ │
+│ └──────────────┴──────┴───────┬───────┴─────┴───────────────┘ │
+│                               │                               │
+│             ┌─────────────────▼───────────────────┐           │
+│             │ ┌──────────┐          ┌──────────┐  │           │
+│             │ │ HAproxy1 │          │ HAproxy2 │  │           │
+│             │ └──────────┘          └──────────┘  │           │
+│             │                                     │           │
+│             │        VRRP IP: 172.31.31.210       │           │
+│       ┌─────┴─────────┬───────────────┬───────────┘           │
+│       │               │               │                       │
+│┌──────▼──────┐ ┌──────▼──────┐ ┌──────▼──────┐ ┌─────────────┐│
+││ worker-131  │ │ worker-132  │ │  worker-133 │ │ storage-134 ││
+││172.31.31.131│ │172.31.31.132│ │172.31.31.133│ │172.31.31.134││
+│└─────┬───────┘ └──────┬──────┘ └──────┬──────┘ └───────▲─────┘│
+│      │                │               │                │      │
+│      │                │               │                │      │
+│      └────────────────┴───────────────┴────────────────┘      │
+│                                                               │
+└───────────────────────────────────────────────────────────────┘
 
 The cluster consists of:
 
@@ -64,8 +88,8 @@ terraform apply
 This will create:
 
 - 3 control-plane nodes
-- 3 worker nodes
-- 2 HAProxy nodes (TODO: Add Terraform code for these)
+- 2 worker nodes
+- 2 HAProxy nodes
 - 1 Shared storage (TODO: Add Terraform code.
 To save space when all VMs are on the same host)
 
@@ -86,10 +110,7 @@ ssh -i ~/.ssh/id_rsa your_user@<node_ip>
 Run the following commands on **each** node:
 
 ```bash
-sudo apt update && sudo apt upgrade -y
-sudo apt install apt-transport-https curl nfs-common -y
-
-sudo apt install containerd -y
+sudo apt install qemu-guest-agent apt-transport-https curl containerd nfs-common -y
 
 sudo mkdir -p /etc/containerd
 containerd config default | sudo tee /etc/containerd/config.toml > /dev/null
@@ -162,6 +183,7 @@ Then you can join any number of worker nodes by running the following on each as
 kubeadm join 172.31.31.210:6443 --token 6jdm9m.5hr443563455st3o6 \
         --discovery-token-ca-cert-hash sha256:b132743563456345a34563417b5b48d00baa015473074829347a
 ```
+
 Notice the join command points to the haproxy Virtual IP that both nodes have.
 
 Copy your generated `kubeadm join` commands for control-plane and worker nodes.
@@ -170,10 +192,12 @@ Copy your generated `kubeadm join` commands for control-plane and worker nodes.
 
 ## Step 7: Install Calico Network Plugin
 
-Before joining additional nodes, install Calico for networking:
+Before joining additional nodes, install Calico for networking.
+Calico allows to practice network policies which are required for the CKA exam.
 
 ```bash
-kubectl apply -f https://raw.githubusercontent.com/projectcalico/calico/v3.29.2/manifests/tigera-operator.yaml
+curl https://raw.githubusercontent.com/projectcalico/calico/v3.29.3/manifests/calico.yaml -O
+kubectl apply -f calico.yaml
 ```
 
 Refer to the official Calico documentation:
