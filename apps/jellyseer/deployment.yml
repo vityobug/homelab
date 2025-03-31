@@ -19,9 +19,9 @@ spec:
         app: jellyseer
     spec:
       securityContext:
-        runAsUser: 3000
-        runAsGroup: 3000
-        fsGroup: 3000
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
       containers:
         - image: fallenbagel/jellyseerr:2.3.0
           name: jellyseerr
