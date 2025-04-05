@@ -41,19 +41,19 @@ spec:
               protocol: TCP
           resources: {}
           volumeMounts:
-            - name: jellyfin-config-vol2 # Config/Transcoding
+            - name: jellyfin-config-vol # Config/Transcoding
               mountPath: /config
-            - name: jellyfin-cache-vol2 # Image/Metadata
+            - name: jellyfin-cache-vol # Image/Metadata
               mountPath: /cache
             - name: media-vol # NFS volume
               mountPath: /media
       volumes:
-        - name: jellyfin-config-vol2 # Config/Transcoding
+        - name: jellyfin-config-vol # Config/Transcoding
           persistentVolumeClaim:
-            claimName: jellyfin-config-pvc2
-        - name: jellyfin-cache-vol2 # Image/Metadata
+            claimName: jellyfin-config-pvc
+        - name: jellyfin-cache-vol # Image/Metadata
           persistentVolumeClaim:
-            claimName: jellyfin-cache-pvc2
+            claimName: jellyfin-cache-pvc
         - name: media-vol # NFS volume
           persistentVolumeClaim:
             claimName: media-pvc
