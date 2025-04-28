@@ -1,0 +1,16 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: psql-paperless
+spec:
+  instances: 3
+
+  bootstrap:
+    initdb:
+      database: paperless
+      owner: paperless
+      secret:
+        name: paperless
+
+  storage:
+    size: 1Gi

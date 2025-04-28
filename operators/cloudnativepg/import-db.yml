@@ -1,0 +1,30 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: cluster-immich
+spec:
+  instances: 3
+
+  bootstrap:
+    initdb:
+      import:
+        type: microservice
+        databases:
+          - angus
+        source:
+          externalCluster: cluster-pg96
+        #postImportApplicationSQL:
+        #- |
+        #  INSERT YOUR SQL QUERIES HERE
+  storage:
+    size: 1Gi
+  externalClusters:
+    - name: cluster-pg96
+      connectionParameters:
+        # Use the correct IP or host name for the source database
+        host: pg96.local
+        user: postgres
+        dbname: postgres
+      password:
+        name: cluster-pg96-superuser
+        key: password
