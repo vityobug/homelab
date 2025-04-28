@@ -14,6 +14,7 @@ spec:
   mountOptions:
     - hard
     - nfsvers=4.1
+    - nconnect=16
   nfs:
     path: /mnt/silo/media
     server: 172.31.31.3

@@ -11,6 +11,8 @@ spec:
   resources:
     requests:
       storage: 16Gi
+  mountOptions:
+    - nconnect=16
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -24,3 +26,5 @@ spec:
   resources:
     requests:
       storage: 14Gi
+  mountOptions:
+    - nconnect=16

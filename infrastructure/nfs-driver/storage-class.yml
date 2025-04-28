@@ -15,3 +15,4 @@ allowVolumeExpansion: true
 mountOptions:
   - hard
   - nfsvers=4.1
+  - nconnect=16
