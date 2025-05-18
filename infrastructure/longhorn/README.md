@@ -6,6 +6,10 @@ Longhorn is a lightweight, reliable, and easy-to-use distributed block storage s
 
 Longhorn should be deployed using Helm. Ensure you have Helm installed before proceeding.
 
+## Configure on which nodes the PVs will be allocated on
+
+[https://longhorn.io/kb/tip-only-use-storage-on-a-set-of-nodes/]
+
 ### Install Longhorn
 
 ```sh

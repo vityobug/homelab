@@ -5,13 +5,13 @@ metadata:
   namespace: restricted
 spec:
   instances: 3
-
-  bootstrap:
-    initdb:
-      database: immich
-      owner: immich
-      secret:
-        name: db-immich
+  #bootstrap:
+  #  initdb:
+  #    database: immich
+  #    owner: immich
+  #    secret:
+  #      name: db-immich
 
   storage:
+    storageClass: nfs-csi
     size: 4Gi
