@@ -8,5 +8,5 @@ Based on the `docker-compose.postgres.yml` in the [paperless-ngx github repo](ht
 * Metallb load balancer
 * Longhorn storage provider
 * External psql db such as CNPG
-* DNS entry to docs.bugaychuk.com
+* DNS entry for docs.bugaychuk.com
   * Change to your preferred domain in the deployment.yaml
