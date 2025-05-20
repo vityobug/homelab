@@ -3,7 +3,7 @@
 This repository documents my **highly-available Kubernetes lab**, designed
 for self-hosted services. The cluster consists of **3 master nodes and
 3 worker nodes**, using **Calico** for networking and **Longhorn** for storage.
-Longhorn replicates storage across all three worker nodes, ensuring redundancy.
+Longhorn replicates storage ensuring redundancy and manages backups.
 If space is a concern you can use a separate node for NFS target which will
 store the data for all tree nodes. Just make sure there is some kind of RAID.
 Large files, such as ISOs and media files, are stored on an **NFS share**.
@@ -19,10 +19,8 @@ available in the terraform README.md.
 
 ## Deployed Applications
 
-* **Jellyfin** – Open-source media server for streaming content.
-* **Jellyseer** – Web-based request management for media downloads.
-* **Romm** – A self-hosted ROM manager that scans, enriches,
-and organizes game collections for emulators.
+* Vaultwarden - Bitwarden compatible password manager
+* Paperless-ngx - Open-source document management system
 
 ## Future Plans
 
@@ -31,10 +29,8 @@ and the plan is to migrate them to this Kubernetes cluster over time. These incl
 
 * **Nextcloud** for file synchronization
 * **Immich** for photo and video management
-* **Paperless** for document archiving
 * An internal **email server** for notifications
 * Private GitOps for automation
-* A self-hosted password manager (**Bitwarden**)
 
 Monitoring will remain separate for now, with Zabbix running on a
 dedicated VM. In the future, I plan to explore Grafana and
