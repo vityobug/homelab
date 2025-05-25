@@ -26,13 +26,13 @@ spec:
     #  backup:
     #    name: backup-example
 
-  enableSuperuserAccess: false
+  enableSuperuserAccess: true
   superuserSecret:
     name: cluster-paperless-superuser
 
   storage:
     #storageClass: longhorn
-    size: 1Gi
+    size: 2Gi
 
   backup:
     barmanObjectStore:
