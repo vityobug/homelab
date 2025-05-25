@@ -10,3 +10,7 @@ Based on the `docker-compose` in the [Vaultwarden github repo](https://github.co
 * Longhorn storage provider
 * DNS entry for bitwarden.bugaychuk.com
   * Change to your preferred domain in the deployment.yaml
+
+## Notes
+
+Use `migrate-data.yaml` to manually migrate data with rsync from another instance.
