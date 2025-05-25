@@ -10,3 +10,7 @@ Based on the `docker-compose.postgres.yml` in the [paperless-ngx github repo](ht
 * External psql db such as CNPG
 * DNS entry for docs.bugaychuk.com
   * Change to your preferred domain in the deployment.yaml
+
+## Notes
+
+`migrate-data.yml` use this to migrate data to the paperless PVCs.
