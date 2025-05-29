@@ -101,6 +101,8 @@ spec:
           ports:
             - containerPort: 8000
           env:
+            - name: PAPERLESS_URL
+              value: "https://docs.bugaychuk.com"
             - name: PAPERLESS_PORT
               value: "8000"
             - name: PAPERLESS_REDIS
@@ -172,6 +174,8 @@ kind: Ingress
 metadata:
   name: paperless
   namespace: restricted
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: "100m"
 spec:
   ingressClassName: nginx
   rules:

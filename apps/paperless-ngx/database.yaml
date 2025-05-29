@@ -1,72 +1,175 @@
----
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"postgresql.cnpg.io/v1","kind":"Cluster","metadata":{"annotations":{},"name":"cluster-paperless","namespace":"restricted"},"spec":{"bootstrap":{"initdb":{"database":"paperless","owner":"paperless","secret":{"name":"cluster-paperless-app-user"}}},"description":"Paperless PSQL cluster","enableSuperuserAccess":true,"imageName":"ghcr.io/cloudnative-pg/postgresql:17.4","instances":1,"primaryUpdateStrategy":"unsupervised","startDelay":300,"stopDelay":300,"storage":{"size":"6Gi"},"superuserSecret":{"name":"cluster-paperless-superuser"}}}
+  creationTimestamp: "2025-05-25T15:22:57Z"
+  generation: 6
   name: cluster-paperless
   namespace: restricted
+  resourceVersion: "18857980"
+  uid: ae807514-6bfb-41e9-a47e-bbfa1a52fb4c
 spec:
-  description: "Paperless PSQL cluster"
-  imageName: ghcr.io/cloudnative-pg/postgresql:17.4
-  # imagePullSecret is only required if the images are located in a private registry
-  # imagePullSecrets:
-  #   - name: private_registry_access
-  instances: 1
-  startDelay: 300
-  stopDelay: 300
-  primaryUpdateStrategy: unsupervised
-
+  affinity:
+    podAntiAffinityType: preferred
   bootstrap:
     initdb:
       database: paperless
+      encoding: UTF8
+      localeCType: C
+      localeCollate: C
       owner: paperless
       secret:
         name: cluster-paperless-app-user
-    # Alternative bootstrap method: start from a backup
-    #recovery:
-    #  backup:
-    #    name: backup-example
-
+  description: Paperless PSQL cluster
+  enablePDB: true
   enableSuperuserAccess: true
+  failoverDelay: 0
+  imageName: ghcr.io/cloudnative-pg/postgresql:17.4
+  instances: 1
+  logLevel: info
+  maxSyncReplicas: 0
+  minSyncReplicas: 0
+  monitoring:
+    customQueriesConfigMap:
+    - key: queries
+      name: cnpg-default-monitoring
+    disableDefaultQueries: false
+    enablePodMonitor: false
+  postgresGID: 26
+  postgresUID: 26
+  postgresql:
+    parameters:
+      archive_mode: "on"
+      archive_timeout: 5min
+      dynamic_shared_memory_type: posix
+      full_page_writes: "on"
+      log_destination: csvlog
+      log_directory: /controller/log
+      log_filename: postgres
+      log_rotation_age: "0"
+      log_rotation_size: "0"
+      log_truncate_on_rotation: "false"
+      logging_collector: "on"
+      max_parallel_workers: "32"
+      max_replication_slots: "0"
+      max_worker_processes: "32"
+      shared_memory_type: mmap
+      shared_preload_libraries: ""
+      ssl_max_protocol_version: TLSv1.3
+      ssl_min_protocol_version: TLSv1.3
+      wal_keep_size: 512MB
+      wal_level: replica
+      wal_log_hints: "on"
+      wal_receiver_timeout: 5s
+      wal_sender_timeout: 5s
+    syncReplicaElectionConstraint:
+      enabled: false
+  primaryUpdateMethod: restart
+  primaryUpdateStrategy: unsupervised
+  replicationSlots:
+    highAvailability:
+      enabled: false
+      slotPrefix: _cnpg_
+    synchronizeReplicas:
+      enabled: false
+    updateInterval: 30
+  resources: {}
+  smartShutdownTimeout: 180
+  startDelay: 300
+  stopDelay: 300
+  storage:
+    resizeInUseVolumes: true
+    size: 6Gi
   superuserSecret:
     name: cluster-paperless-superuser
-
-  storage:
-    #storageClass: longhorn
-    size: 2Gi
-
-  backup:
-    barmanObjectStore:
-      destinationPath: storj://databases/paperless
-      endpointURL: https://gateway.storjshare.io
-      s3Credentials:
-        accessKeyId:
-          name: backup-creds
-          key: ACCESS_KEY_ID
-        secretAccessKey:
-          name: backup-creds
-          key: ACCESS_SECRET_KEY
-      wal:
-        compression: gzip
-        encryption: AES256
-      data:
-        compression: gzip
-        encryption: AES256
-        immediateCheckpoint: false
-        jobs: 2
-    retentionPolicy: "60d"
-#  resources:
-#    requests:
-#      memory: "512Mi"
-#      cpu: "1"
-#    limits:
-#      memory: "1Gi"
-#      cpu: "2"
-
-#  affinity:
-#    enablePodAntiAffinity: true
-#    topologyKey: failure-domain.beta.kubernetes.io/zone
-
-#  nodeMaintenanceWindow:
-#    inProgress: false
-#    reusePVC: false
-
+  switchoverDelay: 3600
+status:
+  availableArchitectures:
+  - goArch: amd64
+    hash: 024c5162e1dee336b21121d781397b347d04939a857d9d8a47664d1796e8b7c9
+  - goArch: arm64
+    hash: 63f3a3fbe19b8fe1c26a0e516ecb965c3412e390729a02706825399f585d9298
+  certificates:
+    clientCASecret: cluster-paperless-ca
+    expirations:
+      cluster-paperless-ca: 2025-08-23 15:17:57 +0000 UTC
+      cluster-paperless-replication: 2025-08-23 15:17:57 +0000 UTC
+      cluster-paperless-server: 2025-08-23 15:17:57 +0000 UTC
+    replicationTLSSecret: cluster-paperless-replication
+    serverAltDNSNames:
+    - cluster-paperless-rw
+    - cluster-paperless-rw.restricted
+    - cluster-paperless-rw.restricted.svc
+    - cluster-paperless-rw.restricted.svc.cluster.local
+    - cluster-paperless-r
+    - cluster-paperless-r.restricted
+    - cluster-paperless-r.restricted.svc
+    - cluster-paperless-r.restricted.svc.cluster.local
+    - cluster-paperless-ro
+    - cluster-paperless-ro.restricted
+    - cluster-paperless-ro.restricted.svc
+    - cluster-paperless-ro.restricted.svc.cluster.local
+    serverCASecret: cluster-paperless-ca
+    serverTLSSecret: cluster-paperless-server
+  cloudNativePGCommitHash: 1535f3c17
+  cloudNativePGOperatorHash: 024c5162e1dee336b21121d781397b347d04939a857d9d8a47664d1796e8b7c9
+  conditions:
+  - lastTransitionTime: "2025-05-26T10:24:38Z"
+    message: Cluster is Ready
+    reason: ClusterIsReady
+    status: "True"
+    type: Ready
+  - lastTransitionTime: "2025-05-26T10:18:18Z"
+    message: Continuous archiving is working
+    reason: ContinuousArchivingSuccess
+    status: "True"
+    type: ContinuousArchiving
+  configMapResourceVersion:
+    metrics:
+      cnpg-default-monitoring: "18543174"
+  currentPrimary: cluster-paperless-1
+  currentPrimaryTimestamp: "2025-05-25T15:23:37.653707Z"
+  healthyPVC:
+  - cluster-paperless-1
+  image: ghcr.io/cloudnative-pg/postgresql:17.4
+  instanceNames:
+  - cluster-paperless-1
+  instances: 1
+  instancesReportedState:
+    cluster-paperless-1:
+      ip: 192.168.168.213
+      isPrimary: true
+      timeLineID: 1
+  instancesStatus:
+    healthy:
+    - cluster-paperless-1
+  latestGeneratedNode: 1
+  managedRolesStatus: {}
+  pgDataImageInfo:
+    image: ghcr.io/cloudnative-pg/postgresql:17.4
+    majorVersion: 17
+  phase: Cluster in healthy state
+  poolerIntegrations:
+    pgBouncerIntegration: {}
+  pvcCount: 1
+  readService: cluster-paperless-r
+  readyInstances: 1
+  secretsResourceVersion:
+    applicationSecretVersion: "15920988"
+    clientCaSecretVersion: "18543146"
+    replicationSecretVersion: "18543148"
+    serverCaSecretVersion: "18543146"
+    serverSecretVersion: "18543147"
+    superuserSecretVersion: "15920989"
+  switchReplicaClusterStatus: {}
+  targetPrimary: cluster-paperless-1
+  targetPrimaryTimestamp: "2025-05-25T15:22:58.571239Z"
+  timelineID: 1
+  topology:
+    instances:
+      cluster-paperless-1: {}
+    nodesUsed: 1
+    successfullyExtracted: true
+  writeService: cluster-paperless-rw

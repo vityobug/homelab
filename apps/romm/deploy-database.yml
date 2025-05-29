@@ -19,7 +19,7 @@ spec:
         app: romm-db
     spec:
       containers:
-        - image: mariadb:11.7.1-noble-rc
+        - image: mariadb:lts-noble
           name: romm-db
           ports:
             - containerPort: 3306
