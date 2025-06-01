@@ -168,7 +168,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: romm-secret
-                  key: IGDB_CLIENT_ID
+                  key: IGDB_CLIENT_SECRET
             - name: MOBYGAMES_API_KEY
               valueFrom:
                 secretKeyRef:
