@@ -1,3 +1,103 @@
+---
+########## PERSISTENT VOLUMES ##########
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: romm-lib-pv
+spec:
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: 60Ti
+  claimRef:
+    apiVersion: v1
+    kind: PersistentVolumeClaim
+    name: romm-lib-pvc
+    namespace: media
+  mountOptions:
+    - hard
+    - nfsvers=4.1
+  nfs:
+    path: /mnt/silo/data/games/library # path of the nfs share
+    server: 172.31.31.3 # IP of the NFS server
+  persistentVolumeReclaimPolicy: Retain # do not automatically delete data
+  volumeMode: Filesystem
+
+---
+########## PERSISTENT VOLUME CLAIMS ##########
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: romm-config-pvc
+  namespace: media
+spec:
+  storageClassName: "longhorn"
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 800Mi
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: romm-redis-pvc
+  namespace: media
+spec:
+  storageClassName: "longhorn"
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: romm-lib-pvc
+  namespace: media
+spec:
+  storageClassName: ""
+  volumeName: romm-lib-pv
+  accessModes:
+    - ReadWriteOnce
+  volumeMode: Filesystem
+  resources:
+    requests:
+      storage: 20Ti
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: romm-assets-pvc
+  namespace: media
+spec:
+  storageClassName: "longhorn"
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 800Mi
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: romm-resources-pvc
+  namespace: media
+spec:
+  storageClassName: "longhorn"
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 800Mi
+
+---
+########### APPLICATION DEPLOYMENT ##########
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -31,7 +131,7 @@ spec:
         runAsGroup: 568
         fsGroup: 568
       containers:
-        - image: rommapp/romm:3.8
+        - image: rommapp/romm:3.9
           name: romm
           ports:
             - containerPort: 8080
@@ -120,7 +220,9 @@ spec:
         - name: romm-config-vol
           persistentVolumeClaim:
             claimName: romm-config-pvc
+
 ---
+########## NETWORK SERVICES ##########
 apiVersion: v1
 kind: Service
 metadata:
@@ -133,3 +235,25 @@ spec:
     - protocol: TCP
       port: 80
       targetPort: 8080
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: romm-ingress
+  namespace: media
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: "romm.bugaychuk.com"
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: romm-svc
+                port:
+                  number: 80
