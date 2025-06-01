@@ -16,24 +16,14 @@ quick access and efficient processing.
 * ROM Files: Stored on an NFS share, providing a centralized location for
 larger files and ensuring easy access from multiple nodes.
 
-## Persistent Storage Configuration
-
-The ROMM application relies on Kubernetes Persistent Volumes (PVs) and
-Persistent Volume Claims (PVCs) to manage its storage needs.
-These are defined in the following configuration files:
-
-* pv.yml – Defines the Persistent Volume (PV) for ROM storage.
-
-* pvc.yml – Defines the NFS Persistent Volume Claim (PVC) used by the application.
-
 ## Environment Variables
 
 All necessary environment variables, including database credentials,
-are stored separately in `romm-secrets.yml`. This file defines Kubernetes Secrets,
+are stored separately in `secrets.yaml`. This file defines Kubernetes Secrets,
 ensuring sensitive information is managed securely.
 These secrets should be applied before deploying the application:
 
-`kubectl apply -f romm-secrets.yml`
+`kubectl apply -f ./secrets.yaml`
 
 Ensure proper access control is in place to protect these secrets.
 
@@ -41,21 +31,16 @@ Ensure proper access control is in place to protect these secrets.
 
 ### Initialization and Health Checks
 
-* The ROMM deployment includes an init container that checks if the database is ready before starting the main application.
+* The ROMM deployment includes an init container that checks if the database is
+ready before starting the main application.
 
-* The database deployment has both liveness and readiness probes to ensure it remains operational and accessible.
-
-To ensure proper resource allocation, apply the Secrets, PV and PVC configurations
-before deploying the ROMM application:
+* The database deployment has both liveness and readiness probes to ensure it
+remains operational and accessible.
 
 ```sh
-kubectl apply -f secrets.yml
-kubectl apply -f pv.yml
-kubectl apply -f pvc.yml
-kubectl apply -f service.yml
-kubectl apply -f deploy-db.yml
-kubectl apply -f deploy-romm.yml
-kubectl apply -f ingress.yml
+kubectl apply -f secrets.yaml
+kubectl apply -f database.yaml
+kubectl apply -f deployment.yml
 ```
 
 Ensure that the NFS share is properly configured and accessible by
