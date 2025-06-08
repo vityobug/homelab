@@ -1,0 +1,8 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Backup
+metadata:
+  name: paperless-backup
+  namespace: restricted
+spec:
+  cluster:
+    name: cluster-paperless

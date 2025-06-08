@@ -36,7 +36,7 @@ spec:
 
   backup:
     barmanObjectStore:
-      destinationPath: storj://databases/paperless
+      destinationPath: s3://databases/paperless
       endpointURL: https://gateway.storjshare.io
       s3Credentials:
         accessKeyId:
