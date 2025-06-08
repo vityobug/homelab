@@ -21,6 +21,7 @@ available in the terraform README.md.
 
 * Vaultwarden - Bitwarden compatible password manager
 * Paperless-ngx - Open-source document management system
+* RomM - Games library manager (like jellyfin is for media)
 
 ## Future Plans
 
