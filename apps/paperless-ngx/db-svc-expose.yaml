@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: cluster-paperless-rw-nodeport
+  namespace: restricted
+spec:
+  type: NodePort
+  selector:
+    cnpg.io/cluster: cluster-paperless
+  ports:
+    - port: 5432
+      targetPort: 5432
+      nodePort: 30032
