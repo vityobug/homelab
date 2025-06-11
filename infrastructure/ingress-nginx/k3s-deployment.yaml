@@ -18,3 +18,8 @@ spec:
         tag: "v1.12.3"
       service:
         type: LoadBalancer
+      # The following is used to allow inbound NextCloud Talk Connections (calls)
+      tcp:
+        "3478": "cloud/nextcloud-aio-talk-public:3478"
+      udp:
+        "3478": "cloud/nextcloud-aio-talk-public:3478"
