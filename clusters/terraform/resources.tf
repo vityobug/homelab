@@ -10,7 +10,7 @@ resource "proxmox_virtual_environment_download_file" "ubuntu_cloud_image" {
   url = "https://cloud-images.ubuntu.com/noble/current/noble-server-cloudimg-amd64.img" # Link to the ubuntu cloudinit img.
 }
 
-# resource "proxmox_virtual_environment_vm" "haproxy_vm" {
+#resource "proxmox_virtual_environment_vm" "haproxy_vm" {
 #   count           = 2
 #   name            = "haproxy-21${count.index + 1}"
 #   node_name       = "pve"
@@ -65,185 +65,130 @@ resource "proxmox_virtual_environment_download_file" "ubuntu_cloud_image" {
 #   }
 # }
 
-resource "proxmox_virtual_environment_vm" "master_vm" {
-  count           = 3
-  name            = "master-12${count.index + 1}"
-  node_name       = "pve"
-  vm_id           = "12${count.index + 1}"
-  stop_on_destroy = true
-  tags            = ["k8s", "dev"]
-
-  cpu {
-    cores = 4
-    type  = "host"
-  }
-
-  memory {
-    dedicated = 4192
-    floating  = 0
-  }
-
-  disk {
-    datastore_id = "local-zfs"
-    file_id      = proxmox_virtual_environment_download_file.ubuntu_cloud_image.id
-    interface    = "scsi0"
-    #iothread     = true
-    discard = "on"
-    size    = 40
-    ssd     = true
-  }
-
-  agent {
-    # read 'Qemu guest agent' section, change to true only when ready
-    enabled = true
-  }
-
-  initialization {
-
-    datastore_id = "local-zfs"
-    ip_config {
-      ipv4 {
-        address = "172.31.31.12${count.index + 1}/24"
-        gateway = "172.31.31.1"
-      }
-    }
-
-    user_account {
-      username = "vitalyb" # Change this tou a desired user account that will be used for authentication.
-      keys     = [trimspace(data.local_file.ssh_public_key.content)]
-    }
-  }
-
-  network_device {
-    bridge = "vmbr0"
-  }
-}
-
-resource "proxmox_virtual_environment_vm" "worker_vm" {
-  count           = 3
-  name            = "worker-13${count.index + 1}"
-  node_name       = "pve"
-  vm_id           = "13${count.index + 1}"
-  stop_on_destroy = true
-  tags            = ["k8s", "dev"]
-
-  cpu {
-    cores = 8
-    type  = "host"
-  }
-
-  memory {
-    dedicated = 16384
-    floating  = 0
-  }
-
-  disk {
-    datastore_id = "local-zfs"
-    file_id      = proxmox_virtual_environment_download_file.ubuntu_cloud_image.id
-    interface    = "scsi0"
-    #iothread     = true
-    discard = "on"
-    size    = 50
-    ssd     = true
-  }
-
-  agent {
-    # read 'Qemu guest agent' section, change to true only when ready
-    enabled = true
-  }
-  # if agent is not enabled, the VM may not be able to shutdown properly, and may need to be forced off
-
-  initialization {
-
-    datastore_id = "local-zfs"
-    ip_config {
-      ipv4 {
-        address = "172.31.31.13${count.index + 1}/24"
-        gateway = "172.31.31.1"
-      }
-    }
-
-    user_account {
-      username = "vitalyb"
-      keys     = [trimspace(data.local_file.ssh_public_key.content)]
-    }
-  }
-
-  network_device {
-    bridge = "vmbr0"
-  }
-}
+#resource "proxmox_virtual_environment_vm" "master_vm" {
+#  count           = 3
+#  name            = "master-12${count.index + 1}"
+#  node_name       = "pve"
+#  vm_id           = "12${count.index + 1}"
+#  stop_on_destroy = true
+#  tags            = ["k8s", "dev"]
+#
+#  cpu {
+#    cores = 4
+#    type  = "host"
+#  }
+#
+#  memory {
+#    dedicated = 8192
+#    floating  = 0
+#  }
+#
+#  disk {
+#    datastore_id = "local-zfs"
+#    file_id      = proxmox_virtual_environment_download_file.ubuntu_cloud_image.id
+#    interface    = "scsi0"
+#    #iothread     = true
+#    discard = "on"
+#    size    = 32
+#    ssd     = true
+#  }
+#
+#  agent {
+#    # read 'Qemu guest agent' section, change to true only when ready
+#    enabled = false
+#  }
+#
+#  initialization {
+#
+#    datastore_id = "local-zfs"
+#    ip_config {
+#      ipv4 {
+#        address = "172.31.31.12${count.index + 1}/24"
+#        gateway = "172.31.31.1"
+#      }
+#    }
+#
+#    user_account {
+#      username = "vitalyb" # Change this tou a desired user account that will be used for authentication.
+#      keys     = [trimspace(data.local_file.ssh_public_key.content)]
+#    }
+#  }
+#
+#  network_device {
+#    bridge = "vmbr0"
+#  }
+#}
+#
+#resource "proxmox_virtual_environment_vm" "worker_vm" {
+#  count           = 3
+#  name            = "worker-13${count.index + 1}"
+#  node_name       = "pve"
+#  vm_id           = "13${count.index + 1}"
+#  stop_on_destroy = true
+#  tags            = ["k8s", "dev"]
+#
+#  cpu {
+#    cores = 12
+#    type  = "host"
+#  }
+#
+#  memory {
+#    dedicated = 16384
+#    floating  = 0
+#  }
+#
+#  disk {
+#    datastore_id = "local-zfs"
+#    file_id      = proxmox_virtual_environment_download_file.ubuntu_cloud_image.id
+#    interface    = "scsi0"
+#    #iothread     = true
+#    discard = "on"
+#    size    = 600
+#    ssd     = true
+#  }
+#
+#  agent {
+#    # read 'Qemu guest agent' section, change to true only when ready
+#    enabled = false
+#  }
+#  # if agent is not enabled, the VM may not be able to shutdown properly, and may need to be forced off
+#
+#  initialization {
+#
+#    datastore_id = "local-zfs"
+#    ip_config {
+#      ipv4 {
+#        address = "172.31.31.13${count.index + 1}/24"
+#        gateway = "172.31.31.1"
+#      }
+#    }
+#
+#    user_account {
+#      username = "vitalyb"
+#      keys     = [trimspace(data.local_file.ssh_public_key.content)]
+#    }
+#  }
+#
+#  network_device {
+#    bridge = "vmbr0"
+#  }
+#}
 
 resource "proxmox_virtual_environment_vm" "k3s_vm" {
-  count           = 0
-  name            = "k3s-14${count.index + 1}"
+  count           = 1
+  name            = "kube15${count.index + 1}"
   node_name       = "pve"
-  vm_id           = "14${count.index + 1}"
+  vm_id           = "15${count.index + 1}"
   stop_on_destroy = true
   tags            = ["k8s", "dev"]
 
   cpu {
-    cores = 8
+    cores = 20
     type  = "host"
   }
 
   memory {
-    dedicated = 32768
-    floating  = 0
-  }
-
-  disk {
-    datastore_id = "local-zfs"
-    file_id      = proxmox_virtual_environment_download_file.ubuntu_cloud_image.id
-    interface    = "scsi0"
-    #iothread     = true
-    discard = "on"
-    size    = 64
-    ssd     = true
-  }
-
-  agent {
-    # read 'Qemu guest agent' section, change to true only when ready
-    enabled = true
-  }
-  # if agent is not enabled, the VM may not be able to shutdown properly, and may need to be forced off
-
-  initialization {
-
-    datastore_id = "local-zfs"
-    ip_config {
-      ipv4 {
-        address = "172.31.31.14${count.index + 1}/24"
-        gateway = "172.31.31.1"
-      }
-    }
-
-    user_account {
-      username = "vitalyb"
-      keys     = [trimspace(data.local_file.ssh_public_key.content)]
-    }
-  }
-
-  network_device {
-    bridge = "vmbr0"
-  }
-}
-
-resource "proxmox_virtual_environment_vm" "nextcloud" {
-  count           = 1
-  name            = "nextcloud"
-  node_name       = "pve"
-  vm_id           = "107"
-  stop_on_destroy = true
-  tags            = ["docker", "ubuntu"]
-
-  cpu {
-    cores = 8
-    type  = "host"
-  }
-
-  memory {
-    dedicated = 32768
+    dedicated = 262144
     floating  = 0
   }
 
@@ -268,7 +213,7 @@ resource "proxmox_virtual_environment_vm" "nextcloud" {
     datastore_id = "local-zfs"
     ip_config {
       ipv4 {
-        address = "172.31.31.107/24"
+        address = "172.31.31.15${count.index + 1}/24"
         gateway = "172.31.31.1"
       }
     }

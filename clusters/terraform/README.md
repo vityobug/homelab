@@ -45,9 +45,8 @@ visualised as follows.
 The cluster consists of:
 
 - 2 HAProxy nodes for load balancing
-- 3 control-plane nodes
-- 3 worker nodes
-- 1 NFS shared storage node (to save space on workers)
+- 3 control-plane/worker nodes
+- Separate reverse proxy for public access
 
 ## Prerequisites
 
