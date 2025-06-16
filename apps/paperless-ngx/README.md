@@ -14,6 +14,31 @@ Based on the `docker-compose.postgres.yml` in the [paperless-ngx github repo](ht
 
 * Backup using `kubectl apply -f db-backup.yaml`
 * Restore using `kubectl apply -f db-restore.yaml`
+* Re-add the backup parameters to the cluster `k edit cluster -n restricted paperless-cluster`
+
+```yaml
+  backup:
+    barmanObjectStore:
+      destinationPath: s3://databases/paperless
+      endpointURL: https://gateway.storjshare.io
+      s3Credentials:
+        accessKeyId:
+          name: backup-creds
+          key: ACCESS_KEY_ID
+        secretAccessKey:
+          name: backup-creds
+          key: ACCESS_SECRET_KEY
+      wal:
+        compression: gzip
+        encryption: AES256
+      data:
+        compression: gzip
+        encryption: AES256
+        immediateCheckpoint: false
+        jobs: 2
+    retentionPolicy: "60d"
+
+```
 
 ### Manually backup database
 
