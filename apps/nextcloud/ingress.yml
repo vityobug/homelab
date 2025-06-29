@@ -13,6 +13,6 @@ spec:
             path: "/"
             backend:
               service:
-                name: nextcloud-aio-apache
+                name: nextcloud
                 port:
-                  number: 12443
+                  number: 80

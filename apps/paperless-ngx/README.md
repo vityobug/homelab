@@ -28,9 +28,6 @@ Based on the `docker-compose.postgres.yml` in the [paperless-ngx github repo](ht
         secretAccessKey:
           name: backup-creds
           key: ACCESS_SECRET_KEY
-      wal:
-        compression: gzip
-        encryption: AES256
       data:
         compression: gzip
         encryption: AES256
@@ -62,3 +59,5 @@ Based on the `docker-compose.postgres.yml` in the [paperless-ngx github repo](ht
 ## Notes
 
 `migrate-data.yml` I used this to migrate data from docker volumes to the paperless PVCs.
+I disabled WAL archiving because PSQL throws an error when attempting to upload the archive to STORJ's S3
+For now I'll perform only manual backups, as I do not write too much data.

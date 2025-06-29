@@ -11,17 +11,12 @@ spec:
       volumeMounts:
         - mountPath: "/nextcloud-data"
           name: nextcloud-data
-        - mountPath: "/nextcloud-nextcloud"
-          name: nextcloud-nextcloud
-        - mountPath: "/nextcloud-db"
-          name: nextcloud-db
+        - mountPath: "/nextcloud-config"
+          name: nextcloud-config
   volumes:
     - name: nextcloud-data
       persistentVolumeClaim:
-        claimName: nextcloud-aio-nextcloud-data
-    - name: nextcloud-nextcloud
+        claimName: nextcloud-data
+    - name: nextcloud-config
       persistentVolumeClaim:
-        claimName: nextcloud-aio-nextcloud
-    - name: nextcloud-db
-      persistentVolumeClaim:
-        claimName: nextcloud-aio-database
+        claimName: nextcloud-config

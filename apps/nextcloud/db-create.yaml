@@ -2,16 +2,13 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
-  name: cluster-paperless
-  namespace: restricted
+  name: cluster-nextcloud
+  namespace: cloud
   annotations:
     cnpg.io/skipWalArchiving: "enabled"
 spec:
-  description: "Paperless PSQL cluster"
+  description: "Nextcloud PSQL cluster"
   imageName: ghcr.io/cloudnative-pg/postgresql:17.4
-  # imagePullSecret is only required if the images are located in a private registry
-  # imagePullSecrets:
-  #   - name: private_registry_access
   instances: 1
   startDelay: 300
   stopDelay: 300
@@ -19,22 +16,22 @@ spec:
 
   bootstrap:
     initdb:
-      database: paperless
-      owner: paperless
+      database: nextcloud_database
+      owner: nextcloud
       secret:
-        name: cluster-paperless-app-user
+        name: cluster-nextcloud
     # Alternative bootstrap method: start from a backup
     #recovery:
     #  backup:
-    #    name: cluster-paperless
+    #    name: cluster-nextcloud
 
   enableSuperuserAccess: true
   superuserSecret:
-    name: cluster-paperless-superuser
+    name: cluster-nextcloud-superuser
 
   storage:
     #storageClass: longhorn
-    size: 2Gi
+    size: 4Gi
 
   postgresql:
     parameters:
@@ -42,7 +39,7 @@ spec:
 
   backup:
     barmanObjectStore:
-      destinationPath: s3://databases/paperless
+      destinationPath: s3://databases/nextcloud
       endpointURL: https://gateway.storjshare.io
       s3Credentials:
         accessKeyId:
