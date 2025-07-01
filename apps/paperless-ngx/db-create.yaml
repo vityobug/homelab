@@ -22,7 +22,7 @@ spec:
       database: paperless
       owner: paperless
       secret:
-        name: cluster-paperless-app-user
+        name: paperless-ngx
     # Alternative bootstrap method: start from a backup
     #recovery:
     #  backup:

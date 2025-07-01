@@ -118,12 +118,12 @@ spec:
             - name: PAPERLESS_DBUSER
               valueFrom:
                 secretKeyRef:
-                  name: cluster-paperless-app-user
+                  name: paperless-ngx
                   key: username
             - name: PAPERLESS_DBPASS
               valueFrom:
                 secretKeyRef:
-                  name: cluster-paperless-app-user
+                  name: paperless-ngx
                   key: password
             - name: PAPERLESS_DBNAME
               value: paperless
