@@ -13,6 +13,8 @@ spec:
       releaseName: argocd
       valueFiles:
         - values.yaml
+    plugin:
+      name: argocd-vault-plugin-helm
   destination:
     server: https://kubernetes.default.svc
     namespace: argocd
