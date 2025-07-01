@@ -94,7 +94,7 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 800Mi
+      storage: 12Gi
 
 ---
 ########### APPLICATION DEPLOYMENT ##########
