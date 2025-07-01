@@ -1,0 +1,200 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  annotations:
+    cnpg.io/skipWalArchiving: enabled
+  creationTimestamp: "2025-06-16T06:02:03Z"
+  generation: 6
+  name: cluster-paperless
+  namespace: restricted
+  resourceVersion: "2162968"
+  uid: 25119a0e-e4c4-4450-a1a7-92d6d1af4f09
+spec:
+  affinity:
+    podAntiAffinityType: preferred
+  backup:
+    barmanObjectStore:
+      data:
+        compression: gzip
+        encryption: AES256
+        immediateCheckpoint: false
+        jobs: 2
+      destinationPath: s3://databases/paperless
+      endpointURL: https://gateway.storjshare.io
+      s3Credentials:
+        accessKeyId:
+          key: ACCESS_KEY_ID
+          name: backup-creds
+        secretAccessKey:
+          key: ACCESS_SECRET_KEY
+          name: backup-creds
+    retentionPolicy: 60d
+    target: prefer-standby
+  bootstrap:
+    recovery:
+      database: app
+      owner: app
+      source: restore-src
+  enablePDB: true
+  enableSuperuserAccess: true
+  externalClusters:
+    - barmanObjectStore:
+        destinationPath: s3://databases/paperless/
+        endpointURL: https://gateway.storjshare.io
+        s3Credentials:
+          accessKeyId:
+            key: ACCESS_KEY_ID
+            name: backup-creds
+          secretAccessKey:
+            key: ACCESS_SECRET_KEY
+            name: backup-creds
+        serverName: paperless-ngx
+      name: restore-src
+  failoverDelay: 0
+  imageName: ghcr.io/cloudnative-pg/postgresql:17.5
+  instances: 1
+  logLevel: info
+  maxSyncReplicas: 0
+  minSyncReplicas: 0
+  monitoring:
+    customQueriesConfigMap:
+      - key: queries
+        name: cnpg-default-monitoring
+    disableDefaultQueries: false
+    enablePodMonitor: false
+  postgresGID: 26
+  postgresUID: 26
+  postgresql:
+    parameters:
+      archive_mode: "off"
+      archive_timeout: 5min
+      dynamic_shared_memory_type: posix
+      full_page_writes: "on"
+      log_destination: csvlog
+      log_directory: /controller/log
+      log_filename: postgres
+      log_rotation_age: "0"
+      log_rotation_size: "0"
+      log_truncate_on_rotation: "false"
+      logging_collector: "on"
+      max_parallel_workers: "32"
+      max_replication_slots: "32"
+      max_worker_processes: "32"
+      shared_memory_type: mmap
+      shared_preload_libraries: ""
+      ssl_max_protocol_version: TLSv1.3
+      ssl_min_protocol_version: TLSv1.3
+      wal_keep_size: 512MB
+      wal_level: logical
+      wal_log_hints: "on"
+      wal_receiver_timeout: 5s
+      wal_sender_timeout: 5s
+    syncReplicaElectionConstraint:
+      enabled: false
+  primaryUpdateMethod: restart
+  primaryUpdateStrategy: unsupervised
+  replicationSlots:
+    highAvailability:
+      enabled: true
+      slotPrefix: _cnpg_
+    synchronizeReplicas:
+      enabled: true
+    updateInterval: 30
+  resources: {}
+  smartShutdownTimeout: 180
+  startDelay: 3600
+  stopDelay: 1800
+  storage:
+    resizeInUseVolumes: true
+    size: 2Gi
+  superuserSecret:
+    name: paperless-ngx
+  switchoverDelay: 3600
+status:
+  availableArchitectures:
+    - goArch: amd64
+      hash: 024c5162e1dee336b21121d781397b347d04939a857d9d8a47664d1796e8b7c9
+    - goArch: arm64
+      hash: 63f3a3fbe19b8fe1c26a0e516ecb965c3412e390729a02706825399f585d9298
+  certificates:
+    clientCASecret: cluster-paperless-ca
+    expirations:
+      cluster-paperless-ca: 2025-09-14 05:57:03 +0000 UTC
+      cluster-paperless-replication: 2025-09-14 05:57:03 +0000 UTC
+      cluster-paperless-server: 2025-09-14 05:57:03 +0000 UTC
+    replicationTLSSecret: cluster-paperless-replication
+    serverAltDNSNames:
+      - cluster-paperless-rw
+      - cluster-paperless-rw.restricted
+      - cluster-paperless-rw.restricted.svc
+      - cluster-paperless-rw.restricted.svc.cluster.local
+      - cluster-paperless-r
+      - cluster-paperless-r.restricted
+      - cluster-paperless-r.restricted.svc
+      - cluster-paperless-r.restricted.svc.cluster.local
+      - cluster-paperless-ro
+      - cluster-paperless-ro.restricted
+      - cluster-paperless-ro.restricted.svc
+      - cluster-paperless-ro.restricted.svc.cluster.local
+    serverCASecret: cluster-paperless-ca
+    serverTLSSecret: cluster-paperless-server
+  cloudNativePGCommitHash: 1535f3c17
+  cloudNativePGOperatorHash: 024c5162e1dee336b21121d781397b347d04939a857d9d8a47664d1796e8b7c9
+  conditions:
+    - lastTransitionTime: "2025-06-21T11:21:26Z"
+      message: Cluster is Ready
+      reason: ClusterIsReady
+      status: "True"
+      type: Ready
+    - lastTransitionTime: "2025-06-16T07:05:28Z"
+      message: "unexpected failure invoking barman-cloud-wal-archive: exit status 4"
+      reason: ContinuousArchivingFailing
+      status: "False"
+      type: ContinuousArchiving
+  configMapResourceVersion:
+    metrics:
+      cnpg-default-monitoring: "48072"
+  currentPrimary: cluster-paperless-1
+  currentPrimaryTimestamp: "2025-06-16T06:35:26.571645Z"
+  healthyPVC:
+    - cluster-paperless-1
+  image: ghcr.io/cloudnative-pg/postgresql:17.5
+  instanceNames:
+    - cluster-paperless-1
+  instances: 1
+  instancesReportedState:
+    cluster-paperless-1:
+      ip: 10.42.0.171
+      isPrimary: true
+      timeLineID: 2
+  instancesStatus:
+    healthy:
+      - cluster-paperless-1
+  latestGeneratedNode: 1
+  managedRolesStatus: {}
+  pgDataImageInfo:
+    image: ghcr.io/cloudnative-pg/postgresql:17.5
+    majorVersion: 17
+  phase: Cluster in healthy state
+  poolerIntegrations:
+    pgBouncerIntegration: {}
+  pvcCount: 1
+  readService: cluster-paperless-r
+  readyInstances: 1
+  secretsResourceVersion:
+    applicationSecretVersion: "163031"
+    clientCaSecretVersion: "163028"
+    replicationSecretVersion: "163030"
+    serverCaSecretVersion: "163028"
+    serverSecretVersion: "163029"
+    superuserSecretVersion: "1360275"
+  switchReplicaClusterStatus: {}
+  targetPrimary: cluster-paperless-1
+  targetPrimaryTimestamp: "2025-06-16T06:02:04.359527Z"
+  timelineID: 2
+  topology:
+    instances:
+      cluster-paperless-1: {}
+    nodesUsed: 1
+    successfullyExtracted: true
+  writeService: cluster-paperless-rw
