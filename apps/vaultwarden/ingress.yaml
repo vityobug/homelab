@@ -1,29 +1,19 @@
+---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  annotations:
-    kubectl.kubernetes.io/last-applied-configuration: |
-      {"apiVersion":"networking.k8s.io/v1","kind":"Ingress","metadata":{"annotations":{},"name":"vaultwarden","namespace":"restricted"},"spec":{"ingressClassName":"nginx","rules":[{"host":"bitwarden.bugaychuk.com","http":{"paths":[{"backend":{"service":{"name":"vaultwarden","port":{"number":38081}}},"path":"/","pathType":"Prefix"}]}}]}}
-  creationTimestamp: "2025-06-15T20:16:05Z"
-  generation: 1
   name: vaultwarden
   namespace: restricted
-  resourceVersion: "538778"
-  uid: 70e32a0e-a1b7-4563-8a59-167c33738520
 spec:
   ingressClassName: nginx
   rules:
-  - host: bitwarden.bugaychuk.com
-    http:
-      paths:
-      - backend:
-          service:
-            name: vaultwarden
-            port:
-              number: 38081
-        path: /
-        pathType: Prefix
-status:
-  loadBalancer:
-    ingress:
-    - ip: 172.31.31.254
+    - host: "bitwarden.bugaychuk.com"
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: vaultwarden
+                port:
+                  number: 38081
