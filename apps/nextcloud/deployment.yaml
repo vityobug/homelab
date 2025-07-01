@@ -82,6 +82,8 @@ spec:
           ports:
             - containerPort: 80
           env:
+            - name: TRUSTED_PROXIES
+              value: 172.31.31.100/32
             - name: NEXTCLOUD_TRUSTED_DOMAINS
               value: nc.bugaychuk.com
             - name: POSTGRES_HOST
