@@ -21,9 +21,7 @@ larger files and ensuring easy access from multiple nodes.
 All necessary environment variables, including database credentials,
 are stored separately in `secrets.yaml`. This file defines Kubernetes Secrets,
 ensuring sensitive information is managed securely.
-These secrets should be applied before deploying the application:
-
-`kubectl apply -f ./secrets.yaml`
+These secrets should be stored in Vault before deploying the application.
 
 Ensure proper access control is in place to protect these secrets.
 
@@ -36,6 +34,9 @@ ready before starting the main application.
 
 * The database deployment has both liveness and readiness probes to ensure it
 remains operational and accessible.
+
+Use ArgoCD to deploy the app by pointing to the dir in the git repo.
+Or deploy manually using the following commands:
 
 ```sh
 kubectl apply -f secrets.yaml
