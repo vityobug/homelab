@@ -4,10 +4,8 @@ metadata:
   annotations:
     cnpg.io/skipWalArchiving: enabled
   creationTimestamp: "2025-06-16T06:02:03Z"
-  generation: 6
   name: cluster-paperless
   namespace: restricted
-  resourceVersion: "2162968"
   uid: 25119a0e-e4c4-4450-a1a7-92d6d1af4f09
 spec:
   affinity:
