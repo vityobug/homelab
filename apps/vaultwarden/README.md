@@ -13,4 +13,4 @@ Based on the `docker-compose` in the [Vaultwarden github repo](https://github.co
 
 ## Notes
 
-Use `migrate-data.yaml` to manually migrate data with rsync from another instance.
+Works with ArgoCD
