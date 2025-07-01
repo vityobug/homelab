@@ -1,0 +1,9 @@
+controller:
+  extraVolumes:
+    - name: cmp-plugin
+      configMap:
+        name: cmp-plugin
+  extraVolumeMounts:
+    - name: cmp-plugin
+      mountPath: /home/argocd/cmp-server/config/plugin.yaml
+      subPath: avp.yaml
