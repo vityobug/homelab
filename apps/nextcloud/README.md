@@ -1,4 +1,8 @@
-# Nextcloud AIO Helm-chart
+# Nextcloud Custom Installation
 
-* Update values.yaml
-* Follow the instructions for installing and updating from [here](https://github.com/nextcloud/all-in-one/tree/main/nextcloud-aio-helm-chart)
+For use with CNPG database for high-availability
+Secrets are stored in HashiCorp Vault
+
+* Clone repo
+* Modify the secrets
+* Point ArgoCD to the repo's dir and deploy app
