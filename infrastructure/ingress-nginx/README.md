@@ -1,7 +1,6 @@
 # NGINX ingress controller
 
-* Install using the manifest in the same dir
-* Or install using Helm
+* Install using Helm:
 
 ```bash
 helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
@@ -9,7 +8,7 @@ helm install ingress-nginx ingress-nginx/ingress-nginx --namespace ingress-nginx
 kubectl get pods --namespace=ingress-nginx
 ```
 
-* Upgrade using
+* Upgrade:
 
 ```bash
 helm upgrade ingress-nginx ingress-nginx/ingress-nginx --namespace ingress-nginx --version <version>

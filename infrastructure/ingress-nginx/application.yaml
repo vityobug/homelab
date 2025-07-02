@@ -20,10 +20,9 @@ spec:
           service:
             type: LoadBalancer
           tcp:
-            "3478": "cloud/nextcloud-aio-talk-public:3478"
+            "3478": "cloud/nextcloud:3478"
           udp:
-            "3478": "cloud/nextcloud-aio-talk-public:3478"
-    path: charts/ingress-nginx
+            "3478": "cloud/nextcloud:3478"
   project: default
   syncPolicy:
     automated:
