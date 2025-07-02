@@ -3,6 +3,7 @@ kind: Cluster
 metadata:
   name: cluster-paperless
   namespace: restricted
+  uid: 25119a0e-e4c4-4450-a1a7-92d6d1af4f09
   resourceVersion: "6224305"
   annotations:
     cnpg.io/skipWalArchiving: enabled
