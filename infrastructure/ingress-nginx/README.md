@@ -14,4 +14,4 @@ kubectl get pods --namespace=ingress-nginx
 helm upgrade ingress-nginx ingress-nginx/ingress-nginx --namespace ingress-nginx --version <version>
 ```
 
-* Can be installed by pointing to the repo dir with ArgoCD
+* In k3s place the k3s yaml in `/var/lib/rancher/k3s/server/manifests` and restart the k3s service.

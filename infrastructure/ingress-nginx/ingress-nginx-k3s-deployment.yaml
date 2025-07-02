@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ingress-nginx
+---
+apiVersion: helm.cattle.io/v1
+kind: HelmChart
+metadata:
+  name: ingress-nginx
+  namespace: ingress-nginx
+spec:
+  repo: https://kubernetes.github.io/ingress-nginx
+  chart: ingress-nginx
+  targetNamespace: ingress-nginx
+  valuesContent: |-
+    controller:
+      image:
+        tag: "v1.12.3"
+      service:
+        type: LoadBalancer
+      # The following is used to allow inbound NextCloud Talk Connections (calls)
+      tcp:
+        "3478": "cloud/nextcloud-aio-talk-public:3478"
+      udp:
+        "3478": "cloud/nextcloud-aio-talk-public:3478"
