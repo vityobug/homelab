@@ -1,0 +1,7 @@
+resources:
+  - database.yaml
+  - deployment.yaml
+  - secrets.yaml
+
+transformers:
+  - remove-metadata.yaml
