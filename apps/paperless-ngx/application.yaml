@@ -1,0 +1,26 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: paperless-ngx
+  namespace: argocd
+spec:
+  destination:
+    namespace: restricted
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    repoURL: https://github.com/vityobug/homelab.git
+    targetRevision: HEAD
+    path: apps/paperless-ngx
+  #syncPolicy:
+  #  automated:
+  #    prune: true
+  #    selfHeal: true
+  ignoreDifferences:
+    - kind: Cluster
+      group: postgresql.cnpg.io
+      name: cluster-paperless
+      namespace: restricted
+      jsonPointers:
+        - /metadata/generation
+        - /metadata/resourceVersion
