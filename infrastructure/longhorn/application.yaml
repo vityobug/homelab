@@ -23,6 +23,22 @@ spec:
       - CreateNamespace=true
   ignoreDifferences:
     - kind: CustomResourceDefinition
-      name: engineimages.longhorn.io
+      name: instancemanagers.longhorn.io
+      jsonPointers:
+        - /spec/preserveUnknownFields
+    - kind: CustomResourceDefinition
+      name: nodes.longhorn.io
+      jsonPointers:
+        - /spec/preserveUnknownFields
+    - kind: CustomResourceDefinition
+      name: replicas.longhorn.io
+      jsonPointers:
+        - /spec/preserveUnknownFields
+    - kind: CustomResourceDefinition
+      name: settings.longhorn.io
+      jsonPointers:
+        - /spec/preserveUnknownFields
+    - kind: CustomResourceDefinition
+      name: volumes.longhorn.io
       jsonPointers:
         - /spec/preserveUnknownFields
