@@ -1,0 +1,31 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: bk-ingress-nginx
+  namespace: argocd
+spec:
+  destination:
+    name: ""
+    namespace: ingress-nginx
+    server: https://kubernetes.default.svc
+  source:
+    helm:
+      chart: ingress-nginx
+      repoURL: https://kubernetes.github.io/ingress-nginx
+      targetNamespace: ingress-nginx
+      values: |
+        controller:
+          image:
+            tag: "v1.12.3"
+          service:
+            type: LoadBalancer
+          tcp:
+            "3478": "cloud/nextcloud-aio-talk-public:3478"
+          udp:
+            "3478": "cloud/nextcloud-aio-talk-public:3478"
+    path: charts/ingress-nginx
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

@@ -14,3 +14,5 @@ kubectl get pods --namespace=ingress-nginx
 ```bash
 helm upgrade ingress-nginx ingress-nginx/ingress-nginx --namespace ingress-nginx --version <version>
 ```
+
+* Can be installed by pointing to the repo dir with ArgoCD
