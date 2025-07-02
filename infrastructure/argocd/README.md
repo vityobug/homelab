@@ -2,7 +2,8 @@
 
 ## Installation
 
-1. Create a secret
+1. Create a secret for Vault Integration
+
 ```yaml
 apiVersion: v1
 kind: Secret
@@ -18,6 +19,7 @@ type: Opaque
 ```
 
 2. Apply the configs and install ArgoCD using Helm
+
 ```
 kubectl create ns argocd
 kubectl apply -f secret.yaml -n argocd
@@ -27,6 +29,7 @@ helm install argocd argo/argo-cd -n argocd -f values.yaml
 ```
 
 3. Create an Ingress with MetalLB
+
 ```
 kubectl apply -f ./ingress.yaml
 ```

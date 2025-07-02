@@ -19,23 +19,24 @@ available in the terraform README.md.
 
 ## Deployed Applications
 
+The following application are deployed in the cluster using ArgoCD
+
 * Vaultwarden - Bitwarden compatible password manager
 * Paperless-ngx - Open-source document management system
 * RomM - Games library manager (like jellyfin is for media)
+* Nextcloud - FOSS Alternative to Google Drive, Calendar, Notes and MS Teams
 
 ## Future Plans
 
 Currently, several applications are running in Docker inside LXC on Proxmox,
 and the plan is to migrate them to this Kubernetes cluster over time. These include:
 
-* **Nextcloud** for file synchronization
 * **Immich** for photo and video management
 * An internal **email server** for notifications
-* Private GitOps for automation
 
 Monitoring will remain separate for now, with Zabbix running on a
 dedicated VM. In the future, I plan to explore Grafana and
-**Prometheus** for observability.
+**Prometheus** for observability. As well as ELK for logging.
 
 This lab setup is a work in progress, evolving as
 I refine the infrastructure and configurations.
