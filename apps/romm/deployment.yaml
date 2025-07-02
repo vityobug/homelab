@@ -131,7 +131,7 @@ spec:
         runAsGroup: 568
         fsGroup: 568
       containers:
-        - image: rommapp/romm:3.10.1
+        - image: rommapp/romm:3.10.2
           name: romm
           ports:
             - containerPort: 8080
