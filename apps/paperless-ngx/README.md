@@ -12,9 +12,12 @@ Based on the `docker-compose.postgres.yml` in the [paperless-ngx github repo](ht
 
 ## Backup and restore database
 
+* *Currently Removed from Git*
 * Backup using `kubectl apply -f db-backup.yaml`
 * Restore using `kubectl apply -f db-restore.yaml`
 * Re-add the backup parameters to the cluster `k edit cluster -n restricted paperless-cluster`
+
+### Backup using the CNPG built-in backup
 
 ```yaml
   backup:
@@ -61,3 +64,5 @@ Based on the `docker-compose.postgres.yml` in the [paperless-ngx github repo](ht
 `migrate-data.yml` I used this to migrate data from docker volumes to the paperless PVCs.
 I disabled WAL archiving because PSQL throws an error when attempting to upload the archive to STORJ's S3
 For now I'll perform only manual backups, as I do not write too much data.
+
+* Made some changes to the manifests so I can use this in ArgoCD
