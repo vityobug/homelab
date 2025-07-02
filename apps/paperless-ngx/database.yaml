@@ -3,6 +3,8 @@ kind: Cluster
 metadata:
   name: cluster-paperless
   namespace: restricted
+  annotations:
+    cnpg.io/skipWalArchiving: enabled
 spec:
   superuserSecret:
     name: cluster-paperless-superuser
@@ -16,7 +18,7 @@ spec:
       barmanObjectStore:
         destinationPath: s3://databases/paperless/ # location with wals and base
         endpointURL: https://gateway.storjshare.io
-        serverName: cluster-paperless
+        serverName: paperless-ngx
         s3Credentials:
           accessKeyId:
             name: backup-creds
@@ -24,8 +26,6 @@ spec:
           secretAccessKey:
             name: backup-creds
             key: ACCESS_SECRET_KEY
-        wal:
-          maxParallel: 8
 
   storage:
     size: 2Gi
