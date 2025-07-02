@@ -4,24 +4,6 @@ metadata:
   name: paperless-ngx
   namespace: argocd
 spec:
-  backup:
-    barmanObjectStore:
-      data:
-        compression: gzip
-        encryption: AES256
-        immediateCheckpoint: false
-        jobs: 2
-      destinationPath: s3://databases/paperless
-      endpointURL: https://gateway.storjshare.io
-      s3Credentials:
-        accessKeyId:
-          key: ACCESS_KEY_ID
-          name: backup-creds
-        secretAccessKey:
-          key: ACCESS_SECRET_KEY
-          name: backup-creds
-    retentionPolicy: 60d
-    target: prefer-standby
   destination:
     namespace: restricted
     server: https://kubernetes.default.svc

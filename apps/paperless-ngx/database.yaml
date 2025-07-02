@@ -7,6 +7,24 @@ metadata:
   annotations:
     cnpg.io/skipWalArchiving: enabled
 spec:
+  backup:
+    barmanObjectStore:
+      data:
+        compression: gzip
+        encryption: AES256
+        immediateCheckpoint: false
+        jobs: 2
+      destinationPath: s3://databases/paperless
+      endpointURL: https://gateway.storjshare.io
+      s3Credentials:
+        accessKeyId:
+          key: ACCESS_KEY_ID
+          name: backup-creds
+        secretAccessKey:
+          key: ACCESS_SECRET_KEY
+          name: backup-creds
+    retentionPolicy: 60d
+    target: prefer-standby
   superuserSecret:
     name: cluster-paperless-superuser
 
@@ -29,6 +47,7 @@ spec:
             key: ACCESS_SECRET_KEY
 
   storage:
+    resizeInUseVolumes: true
     size: 2Gi
   instances: 1
   enableSuperuserAccess: true
