@@ -28,6 +28,10 @@ spec:
       labels:
         app: prometheus-server
     spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65534
+        fsGroup: 65534
       containers:
         - name: prometheus
           image: prom/prometheus
