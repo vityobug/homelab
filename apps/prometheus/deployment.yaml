@@ -45,6 +45,8 @@ spec:
               mountPath: /etc/prometheus/
             - name: prometheus-storage-volume
               mountPath: /prometheus/
+            - name: sa-secret
+              mountPath: /var/run/secrets/kubernetes.io/serviceaccount"
       volumes:
         - name: prometheus-config-volume
           configMap:
@@ -53,3 +55,6 @@ spec:
         - name: prometheus-storage-volume
           persistentVolumeClaim:
             claimName: prometheus-storage-volume
+        - name: sa-secret
+          secret:
+            secretName: prometheus-sa-token

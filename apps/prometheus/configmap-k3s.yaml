@@ -42,8 +42,8 @@ data:
         - role: endpoints
         scheme: https
         tls_config:
-          ca_file: /var/lib/rancher/k3s/server/tls/server-ca.crt
-        bearer_token_file: /var/lib/rancher/k3s/server/token
+          ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+        bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
         relabel_configs:
         - source_labels: [__meta_kubernetes_namespace, __meta_kubernetes_service_name, __meta_kubernetes_endpoint_port_name]
           action: keep
@@ -51,8 +51,8 @@ data:
       - job_name: 'kubernetes-nodes'
         scheme: https
         tls_config:
-          ca_file: /var/lib/rancher/k3s/server/tls/server-ca.crt
-        bearer_token_file: /var/lib/rancher/k3s/server/token
+          ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+        bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
         kubernetes_sd_configs:
         - role: node
         relabel_configs:
@@ -94,8 +94,8 @@ data:
       - job_name: 'kubernetes-cadvisor'
         scheme: https
         tls_config:
-          ca_file: /var/lib/rancher/k3s/server/tls/server-ca.crt
-        bearer_token_file: /var/lib/rancher/k3s/server/token
+          ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+        bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
         kubernetes_sd_configs:
         - role: node
         relabel_configs:
@@ -135,4 +135,3 @@ data:
         - source_labels: [__meta_kubernetes_service_name]
           action: replace
           target_label: kubernetes_name
-
