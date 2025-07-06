@@ -5,13 +5,16 @@ metadata:
   namespace: argocd
 spec:
   project: default
-  source:
-    repoURL: https://charts.longhorn.io
-    chart: longhorn
-    targetRevision: "1.9.0"
-    helm:
-      valueFiles:
-        - values.yaml
+  sources:
+    - repoURL: https://github.com/vityobug/homelab.git
+      targetRevision: HEAD
+      path: infrastructure/longhorn
+    - repoURL: https://charts.longhorn.io
+      chart: longhorn
+      targetRevision: "1.9.0"
+      helm:
+        valueFiles:
+          - values.yaml
   destination:
     server: https://kubernetes.default.svc
     namespace: longhorn-system
