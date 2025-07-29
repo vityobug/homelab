@@ -141,6 +141,8 @@ spec:
               value: "true"
             - name: PLAYMATCH_API_ENABLED
               value: "true"
+            - name: LAUNCHBOX_API_ENABLED
+              value: "true"
             - name: DB_HOST
               value: romm-db-svc
             - name: DB_NAME
