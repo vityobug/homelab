@@ -138,9 +138,9 @@ spec:
           resources: {}
           env:
             - name: HASHEOUS_API_ENABLED
-              value: true
+              value: "true"
             - name: PLAYMATCH_API_ENABLED
-              value: true
+              value: "true"
             - name: DB_HOST
               value: romm-db-svc
             - name: DB_NAME
