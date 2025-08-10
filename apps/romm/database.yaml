@@ -21,7 +21,7 @@ metadata:
   name: romm-db
   namespace: media
 spec:
-  replicas: 1
+  replicas: 0
   selector:
     matchLabels:
       app: romm-db
