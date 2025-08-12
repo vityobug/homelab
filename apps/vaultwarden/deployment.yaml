@@ -8,7 +8,7 @@ metadata:
     app.kubernetes.io/name: vaultwarden
   namespace: restricted
 spec:
-  replicas: 0
+  replicas: 1
   selector:
     matchLabels:
       app: vaultwarden
